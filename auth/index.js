@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs')
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt')
 
 function listen(app) {
     let PORT = (process.env.NODE_ENV == 'production') ? 3000 : 5000;
@@ -28,7 +29,6 @@ const users = [
     },
 ]
 
-
 /*
 Details: 
 - Create JWT on Login 
@@ -52,6 +52,7 @@ app.use(cookieParser());
 app.use(express.static('../front-end'))
 
 app.post('/api/login/', (req, res) => {
+    console.log(req.body)
     const {username, password} = req.body;
     const user = users.find(usr => {
         return usr.username == username;
@@ -62,7 +63,7 @@ app.post('/api/login/', (req, res) => {
             message: 'User not found'
     })} 
     if (password !== user.password) {
-        res.status(401).send({
+        return res.status(401).send({
             status: 'Login Unsuccessful', 
             message: 'Password incorrect'
     })} 
