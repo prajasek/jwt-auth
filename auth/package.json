@@ -6,8 +6,9 @@
   "devDependencies": {
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
-    "nodemon": "^2.0.19"
-  }, 
+    "nodemon": "^2.0.19",
+    "qs": "^6.11.0"
+  },
   "scripts": {
     "start": "SET NODE_ENV=production&node index.js"
   }

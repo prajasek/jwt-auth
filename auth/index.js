@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs')
 const cookieParser = require('cookie-parser');
-const csrf = require('csurf');
 
 function listen(app) {
     let PORT = (process.env.NODE_ENV == 'production') ? 3000 : 5000;
@@ -18,13 +17,13 @@ const users = [
     {
         id:'1', 
         username: 'prasanth', 
-        password: 'password',
+        password: 'prasanth123',
         isAdmin: true
     },
     {
         id:'21', 
         username: 'shana', 
-        password: 'password_shana',
+        password: 'shana123',
         isAdmin: false
     },
 ]
@@ -50,28 +49,26 @@ Details:
 app.use(express.json());
 app.use(bodyParser.urlencoded())
 app.use(cookieParser());
-app.use(csrf({cookie: true}));
-
+app.use(express.static('../front-end'))
 
 app.post('/api/login/', (req, res) => {
-    console.log("->", req.cookies['_csrf']);
-    console.log("-->", req.body._csrf);
-    res.send(req.body);
+    const {username, password} = req.body;
+    const user = users.find(usr => {
+        return usr.username == username;
+    })
+    if (!user) {
+        res.status(400).send({
+            status: 'Login Unsuccessful', 
+            message: 'User not found'
+    })} 
+    if (password !== user.password) {
+        res.status(401).send({
+            status: 'Login Unsuccessful', 
+            message: 'Password incorrect'
+    })} 
+    res.send({user})
 })
 
-
-app.get('/api/login', (req, res) => {
-    console.log(req.cookies);
-    console.log(req.csrfToken?.())
-    console.log(res.getHeaders())
-    res.send('fone');
-})
-
-app.delete("/api/login", (req, res) => {
-    res.setHeader('access-control-allow-methods', 'delete');
-    res.send('deteled')
-}
-)
 
 listen(app);
 
