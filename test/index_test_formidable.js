@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const upload = require('multer')();
+// const upload = require('multer')();
 const path = require('path');
-const formidable = require('formidable');
-const fs = require('fs')
+// const formidable = require('formidable');
+// const fs = require('fs')
 
 function listen(app) {
     app.listen(PORT, () => {
@@ -40,31 +40,32 @@ app.use(bodyParser.urlencoded({extended:false}))
 
 
 app.get("/api/login", (req, res) => {
-
+    console.log('running')
     res.status(200);
-    res.setHeader('Content-Type', 'application/json');
+    // res.setHeader('Content-Type', 'image/png');
     // res.setHeader('Content-Type', 'text/html');
-    // res.setHeader('Content-Disposition', 'idsline');
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment');
     // res.setHeader('Content-Length', 40);
-    res.sendFile(path.join(__dirname, "/package.json"));
+    res.sendFile(path.join(__dirname, "/smiley.jpg"));
 
 })
 
-app.post("/api/login", (req, res) => {
-    let form = new formidable.IncomingForm();
-    form.parse(req, (err, fields, files) => {
-        console.log(files)
-        const p = files['test2'].filepath;
-        const data = fs.readFileSync(p) //, {encoding: 'utf-8'});
-        // fs.appendFileSync('output.png', data);
-        console.log(data[data.length-1]);
-        console.log(fs.readFileSync('./output.png'));
-        res.sendFile(path.join(__dirname, "/output.txt"));        
-    })
-    console.log("-->", req.body);
-    // res.status(200);
-    // res.send('Done')
-})
+// app.post("/api/login", (req, res) => {
+//     let form = new formidable.IncomingForm();
+//     form.parse(req, (err, fields, files) => {
+//         console.log(files)
+//         const p = files['test2'].filepath;
+//         const data = fs.readFileSync(p) //, {encoding: 'utf-8'});
+//         // fs.appendFileSync('output.png', data);
+//         console.log(data[data.length-1]);
+//         console.log(fs.readFileSync('./output.png'));
+//         res.sendFile(path.join(__dirname, "/output.txt"));        
+//     })
+//     console.log("-->", req.body);
+//     // res.status(200);
+//     // res.send('Done')
+// })
 
 listen(app);
 
