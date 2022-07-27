@@ -7,6 +7,7 @@
   "devDependencies": {
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.19",
     "qs": "^6.11.0"
   },
